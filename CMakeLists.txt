@@ -9,8 +9,8 @@ set(CMAKE_CXX_FLAGS_DEBUG "-O0 -g3")
 set(CMAKE_CXX_FLAGS_RELEASE "-O3 -DNDEBUG")
 
 find_package(SDL2 REQUIRED)
-include_directories(${SDL2_INCLUDE_DIRS})
+include_directories(${SDL2_INCLUDE_DIRS} include)
 
-add_executable(chip8 src/chip8.cpp)
+add_executable(chip8 src/chip8.cpp src/emu.cpp src/display.cpp)
 target_link_libraries(chip8 ${SDL2_LIBRARIES})
 
