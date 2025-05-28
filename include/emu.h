@@ -9,29 +9,42 @@
 #include "common.h"
 #include "display.h"
 
+enum EmulatorState {
+    ACTIVE,
+    PAUSE,
+    HALT
+};
+
 class Emulator {
 public:
     Emulator();
     ~Emulator();
 
     Display display;
+    EmulatorState state = PAUSE;
 
-    // void run(const std::vector<uint16_t>&);
+    void loadROM(const std::vector<uint16_t>&);
+
+    void step();
+    void run();
 
 private:
-    std::array<uint8_t, CHIP8_MEMORY_SIZE> memory;
-    std::array<uint8_t, CHIP8_NUM_DATA_REGISTERS> registers;
+    std::array<uint8_t, CHIP8_MEMORY_SIZE> memory{};
+    std::array<uint8_t, CHIP8_NUM_DATA_REGISTERS> registers{};
 
-    uint16_t iReg; // Should bitmask by 0xFFF every time you do a memory access
+    uint16_t iReg = 0; // Should bitmask by 0xFFF every time you do a memory access
     uint16_t programCounter = PC_START; // Should bitmask by 0xFFF every time you do a memory access
     
-    std::array<uint16_t, CHIP8_RECURSION_DEPTH> callStack;
+    std::array<uint16_t, CHIP8_RECURSION_DEPTH> callStack{};
     uint8_t stackPointer = 0;
 
     uint8_t delayTimer = 0;
     uint8_t soundTimer = 0;
 
-    std::array<std::array<uint8_t, 32 / 8>, 64 / 8> displayBuffer; // I'm writing it like this because we only need one bit to hold the display
+    // I'm writing it like this because we only need one bit to hold the display
+    std::array<std::array<uint8_t, 64 / 8 >, 32> displayBuffer{}; 
+
+    void draw(uint8_t, uint8_t, uint8_t);
 
 };
 

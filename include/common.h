@@ -4,3 +4,6 @@
 #include <memory>
 #include <vector>
 #include <array>
+
+#include <cstring> // Just for memcpy
+#include <cassert>

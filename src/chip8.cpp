@@ -1,35 +1,28 @@
+#include <fstream>
+
 #include "common.h"
 #include "emu.h"
 
-int main(){
+int main(int argc, char** argv){
+
+	// Want exactly one argument (for now): the file
+	// Maybe change this to a visual/drag and drop system
+
+	if (argc < 2) {
+		std::cout << "Usage: chip8 <program>" << std::endl;
+	}
+
+	std::ifstream romFile(argv[0], std::ios::binary);
+	std::vector<uint16_t> rom;
+
+	
+	
+
+	
 
     Emulator myEmulator;
+	myEmulator.run();
 
- //    if (SDL_Init(SDL_INIT_EVERYTHING) < 0) {
- //        std::cerr << "Error Initializing SDL" << std::endl;
- //        return 1;
- //    }
-
-
- //    std::unique_ptr<SDL_Window, void (*)(SDL_Window*)> window(
- //        SDL_CreateWindow( "Example", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 1280, 720, SDL_WINDOW_SHOWN ),
- //        SDL_DestroyWindow
- //    );
- //    std::unique_ptr<SDL_Surface> winSurface(SDL_GetWindowSurface(window.get()));
-
- //    SDL_FillRect( winSurface.get(), NULL, SDL_MapRGB( winSurface->format, 255, 0, 0) );
-
-	// // Update the window display
-	// SDL_UpdateWindowSurface( window.get() );
-
- //    system("sleep 5");
-
-	// // Quit SDL
-	// SDL_Quit();
-	
-	// End the program
 	return 0;
-
-
 
 }
