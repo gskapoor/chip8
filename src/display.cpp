@@ -67,7 +67,6 @@ Display::~Display(){
 
 void Display::update(std::array<std::array<uint8_t, 64 / 8>, 32> buffer) {
 
-    std::cout << __FILE__ << " " << __LINE__ << std::endl;
     void* pixels = nullptr;
     int pitch = 0;
 
