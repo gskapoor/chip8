@@ -75,10 +75,28 @@ void Emulator::draw(uint8_t x, uint8_t y, uint8_t n){
                 flippedOneBit = 1;
             }
             displayBuffer[j+y][x/8] ^= memory[(iReg & 0xFFF) + j];
-            std::cout << "printing at: " << x/8 << ", " << y / 1 << std::endl;
+
+            // std::cout << "printing at: " << x/8 << ", " << y / 1 << std::endl;
         }
     } else {
-        throw std::logic_error("not implemented");
+        uint8_t lOffset = x % 8;
+        uint8_t rOffset = 8 - (x % 8);
+        uint8_t lIndex = x / 8;
+        uint8_t rIndex = x / 8 + 1 < 8; // "<8" to wrap around if x + 1 == 8
+
+        for (uint8_t j = 0; j + y < 32 && j < n; j++ ){
+            if (((displayBuffer[j+y][lIndex] & memory[(iReg & 0xFFF) + j ]) >> lOffset
+               | (displayBuffer[j+y][rIndex] & memory[(iReg & 0xFFF) + j ]) << rOffset
+            ) != 0){
+
+                // NOTE: DO NOT TRUST THIS CODE: IT IS BAD AND WILL HURT YOU
+                flippedOneBit = 1;
+            }
+            displayBuffer[j+y][lIndex] ^= static_cast<uint8_t>(memory[(iReg & 0xFFF) + j] >> lOffset);
+            displayBuffer[j+y][rIndex] ^= static_cast<uint8_t>(memory[(iReg & 0xFFF) + j] << rOffset);
+
+            // std::cout << "printing at: " << x/8 << ", " << y / 1 << std::endl;
+        }
     }
 
     registers[0xF] = flippedOneBit;
