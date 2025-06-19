@@ -41,9 +41,9 @@ Emulator::~Emulator() {
 void Emulator::loadROM(const std::vector<uint16_t> &instructions) {
     // First we gotta check if the space is too small
    
-    std::cout << instructions.size() << std::endl;    
+    // std::cout << instructions.size() << std::endl;    
+    // std::cout << std::endl;
 
-    std::cout << std::endl;
     if (instructions.size() * 2 > 0x1000 - 0x200 ){
         throw std::runtime_error("Error loading ROM: Too many instructions");
     }
@@ -82,7 +82,8 @@ void Emulator::draw(uint8_t x, uint8_t y, uint8_t n){
         uint8_t lOffset = x % 8;
         uint8_t rOffset = 8 - (x % 8);
         uint8_t lIndex = x / 8;
-        uint8_t rIndex = x / 8 + 1 < 8; // "<8" to wrap around if x + 1 == 8
+        // TODO: FIX BELOW
+        uint8_t rIndex = x / 8 != 7 ? x / 8 + 1 : 0; // "<8" to wrap around if x + 1 == 8
 
         for (uint8_t j = 0; j + y < 32 && j < n; j++ ){
             if (((displayBuffer[j+y][lIndex] & memory[(iReg & 0xFFF) + j ]) >> lOffset
@@ -152,11 +153,11 @@ void Emulator::step(){
     uint16_t instruction = (static_cast<uint16_t>(memory[programCounter % CHIP8_MEMORY_SIZE]) << 8)
     | static_cast<uint16_t>(memory[(programCounter + 1u) % CHIP8_MEMORY_SIZE]);
 
-    std::cout << "PC LOC: " << std::hex << std::uppercase << programCounter << std::endl;
+    // std::cout << "PC LOC: " << std::hex << std::uppercase << programCounter << std::endl;
 
     programCounter += 2;
 
-    std::cout << "CURRENT INS: " << std::hex << std::uppercase << instruction << std::endl;
+    // std::cout << "CURRENT INS: " << std::hex << std::uppercase << instruction << std::endl;
 
     switch (instruction & 0xF000) {
         uint8_t reg, val, xReg, yReg, xVal, yVal, numRows;
@@ -189,7 +190,7 @@ void Emulator::step(){
         case 0x2000:
             // Call instruction
 
-            assert(stackPointer + 1 < CHIP8_RECURSION_DEPTH);
+            assert( 1 < CHIP8_RECURSION_DEPTH);
 
             callStack[stackPointer] = programCounter;
             stackPointer += 1;
