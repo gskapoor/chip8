@@ -9,7 +9,7 @@ int main(int argc, char** argv){
 	// Maybe change this to a visual/drag and drop system
 
 	if (argc < 2) {
-		std::cout << "Usage: chip8 <program>" << std::endl;
+		std::cerr << "Usage: chip8 <program>" << std::endl;
 		return 1;
 	}
 
@@ -19,8 +19,6 @@ int main(int argc, char** argv){
 
 	uint32_t size = (uint32_t)romFile.tellg();
 	romFile.seekg(0);
-
-	std::cout << "THIS IS THE PROPER SIZE " << size << std::endl;
 
 	std::vector<uint16_t> rom(size/2 + (size % 2), 0);
 
