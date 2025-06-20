@@ -276,7 +276,6 @@ void Emulator::run(){
     while(state != HALT){
         step();
         if (programCounter >= CHIP8_MEMORY_SIZE){
-            system("sleep 20");
             state = HALT;
         }
     }
