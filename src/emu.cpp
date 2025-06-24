@@ -56,6 +56,11 @@ void Emulator::loadROM(const std::vector<uint16_t> &instructions) {
         memory[0x200 + 2 * i] = instLhs;
         memory[0x200 + 2 * i + 1] = instRhs;
     }
+
+    for (size_t i = instructions.size(); i * 2 < 0x1000 - 0x200 ; i++ ){
+        memory[0x200 + 2 * i] = 0;
+        memory[0x200 + 2 * i + 1] = 0;
+    }
 }
 
 void Emulator::draw(uint8_t x, uint8_t y, uint8_t n){
@@ -295,3 +300,11 @@ void Emulator::setRegister(uint8_t reg, uint8_t value){
 uint8_t Emulator::getRegister(uint8_t reg){
     return registers[reg];
 }
+
+// void Emulator::setPC(uint16_t newPC){
+//     programCounter = newPC;
+// }
+// 
+// uint16_t Emulator::getPC(){
+//     return programCounter;
+// }
