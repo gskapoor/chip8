@@ -265,7 +265,13 @@ void Emulator::step(){
             programCounter = (instruction & 0xFFF) + registers[0];
             break;
         case 0xC000:
-            // TODO: figure out how to do random stuff:
+            srand((unsigned int) time (NULL));
+
+            // I don't know how to test this (or if i really have to)
+            // I'll just assume it works
+            reg = static_cast<uint8_t>((instruction &0xF00) >> 8);
+            registers[reg] = static_cast<uint8_t>(rand());
+
             break;
         case 0xD000:
             // This is complex enough to merit it's own function
