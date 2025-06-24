@@ -285,3 +285,13 @@ void Emulator::run(){
         }
     }
 }
+
+void Emulator::setRegister(uint8_t reg, uint8_t value){
+    assert(reg < CHIP8_NUM_DATA_REGISTERS);
+
+    registers[reg] = value;
+}
+
+uint8_t Emulator::getRegister(uint8_t reg){
+    return registers[reg];
+}
