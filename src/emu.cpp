@@ -189,7 +189,6 @@ void Emulator::step(){
             break;
         case 0x1000:
             // This is always a jump instruction
-            // TODO: Uncomment the below line later
             programCounter = instruction & 0xFFF;
             break;
         case 0x2000:
