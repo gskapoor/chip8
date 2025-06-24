@@ -267,7 +267,12 @@ void Emulator::step(){
 
     display.update(displayBuffer);
 
+}
 
+void Emulator::step(uint8_t numSteps){
+    for (uint8_t i = 0; i < numSteps; i++){
+        step();
+    }
 }
 
 void Emulator::run(){

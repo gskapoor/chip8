@@ -27,6 +27,8 @@ public:
     void loadROM(const std::vector<uint16_t>&);
 
     void step();
+    void step(uint8_t);
+
     void run();
 
 private:
