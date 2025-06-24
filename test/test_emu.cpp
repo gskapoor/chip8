@@ -6,6 +6,7 @@
 TEST_CASE("Basic Register/ALU Operations [(6-9)XXX]"){
 
     Emulator emulator;
+
     SUBCASE("Load Immediate") {
         std::vector<uint16_t> rom = {
             0xFF60 
@@ -159,6 +160,56 @@ TEST_CASE("Basic Register/ALU Operations [(6-9)XXX]"){
             emulator.step();
             CHECK(emulator.getRegister(0x0) == 0xFE);
             CHECK(emulator.getRegister(0xF) == 1);
+        }
+    }
+}
+
+TEST_CASE("Jump Instructions"){
+
+    Emulator emulator;
+
+    SUBCASE("Call and Return"){
+        emulator.setRegister(0, 0);
+        emulator.setRegister(1, 1);
+        std::vector<uint16_t> rom = {0x0422, 0x0160, 0x0061, 0xEE00};
+        emulator.loadROM(rom);
+        emulator.step();
+        CHECK(emulator.getPC() == 0x204);
+        emulator.step();
+        CHECK(emulator.getRegister(0) == 0);
+        CHECK(emulator.getRegister(1) == 0);
+
+        // Now test Return
+        emulator.step(2);
+        CHECK(emulator.getRegister(0) == 1);
+    }
+    SUBCASE("Jump") {
+        emulator.setRegister(0, 0);
+        emulator.setRegister(1, 1);
+        std::vector<uint16_t> rom = {0x0412, 0x0160, 0x0061};
+        emulator.loadROM(rom);
+        emulator.step();
+        CHECK(emulator.getPC() == 0x204);
+        emulator.step();
+        CHECK(emulator.getRegister(0) == 0);
+        CHECK(emulator.getRegister(1) == 0);
+    }
+    SUBCASE("Skip if immediate"){
+        std::vector<uint16_t> rom = {0x0031, 0x0060, 0x0160};
+        emulator.loadROM(rom);
+        SUBCASE("reg1 == imm"){
+            emulator.setRegister(1, 0);
+            emulator.step();
+            CHECK(emulator.getPC() == 0x204);
+            emulator.step();
+            CHECK(emulator.getRegister(0) == 1);
+        }
+        SUBCASE("reg1 != imm"){
+            emulator.setRegister(1, 1);
+            emulator.step();
+            CHECK(emulator.getPC() == 0x202);
+            emulator.step();
+            CHECK(emulator.getRegister(0) == 0);
         }
     }
 }
