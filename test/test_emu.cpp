@@ -212,4 +212,41 @@ TEST_CASE("Jump Instructions"){
             CHECK(emulator.getRegister(0) == 0);
         }
     }
+    SUBCASE("Skip if not immediate"){
+        std::vector<uint16_t> rom = {0x0041, 0x0060, 0x0160};
+        emulator.loadROM(rom);
+        SUBCASE("reg1 != imm"){
+            emulator.setRegister(1, 1);
+            emulator.step();
+            CHECK(emulator.getPC() == 0x204);
+            emulator.step();
+            CHECK(emulator.getRegister(0) == 1);
+        }
+        SUBCASE("reg1 == imm"){
+            emulator.setRegister(1, 0);
+            emulator.step();
+            CHECK(emulator.getPC() == 0x202);
+            emulator.step();
+            CHECK(emulator.getRegister(0) == 0);
+        }
+    }
+    SUBCASE("Skip if registers"){
+        std::vector<uint16_t> rom = {0x0051, 0x0062, 0x0162};
+        emulator.loadROM(rom);
+        emulator.setRegister(0, 0);
+        SUBCASE("reg0 == reg1"){
+            emulator.setRegister(1, 0);
+            emulator.step();
+            CHECK(emulator.getPC() == 0x204);
+            emulator.step();
+            CHECK(emulator.getRegister(2) == 1);
+        }
+        SUBCASE("reg0 != reg1"){
+            emulator.setRegister(1, 1);
+            emulator.step();
+            CHECK(emulator.getPC() == 0x202);
+            emulator.step();
+            CHECK(emulator.getRegister(2) == 0);
+        }
+    }
 }

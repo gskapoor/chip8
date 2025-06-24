@@ -209,7 +209,22 @@ void Emulator::step(){
             if (registers[reg] == val) {
                 programCounter += 2;
             }
-            
+            break;
+        case 0x4000:
+            // Jump if not equal instruction
+            reg = static_cast<uint8_t>((instruction &0xF00) >> 8);
+            val = static_cast<uint8_t>(instruction & 0xFF);
+            if (registers[reg] != val) {
+                programCounter += 2;
+            }
+            break;
+        case 0x5000:
+            // Jump if (registers) not equal instruction
+            xReg = static_cast<uint8_t>((instruction &0xF00) >> 8);
+            yReg = static_cast<uint8_t>((instruction &0xF0) >> 4);
+            if (registers[xReg] == registers[yReg]){
+                programCounter += 2;
+            }
             break;
         case 0x6000:
             // This is a "set immediate" instruction
