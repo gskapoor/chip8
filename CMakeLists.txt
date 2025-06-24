@@ -32,4 +32,5 @@ include_directories(${SDL2_INCLUDE_DIRS} ${DOCTEST_INCLUDE_DIR} include)
 add_executable(chip8 src/chip8.cpp src/emu.cpp src/display.cpp)
 target_link_libraries(chip8 ${SDL2_LIBRARIES})
 
-add_executable(test test/test.cpp test/test_emu.cpp)
+add_executable(test test/test.cpp test/test_emu.cpp src/emu.cpp src/display.cpp)
+target_link_libraries(test ${SDL2_LIBRARIES})
