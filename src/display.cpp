@@ -1,5 +1,7 @@
 #include "display.h"
 
+// TODO: Change to a "mocked" display for testing 
+
 Display::Display()
     : _window(
         nullptr,
