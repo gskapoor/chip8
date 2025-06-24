@@ -300,10 +300,10 @@ uint8_t Emulator::getRegister(uint8_t reg){
     return registers[reg];
 }
 
-// void Emulator::setPC(uint16_t newPC){
-//     programCounter = newPC;
-// }
-// 
-// uint16_t Emulator::getPC(){
-//     return programCounter;
-// }
+void Emulator::setPC(uint16_t newPC){
+    programCounter = newPC;
+}
+
+uint16_t Emulator::getPC(){
+    return programCounter;
+}
