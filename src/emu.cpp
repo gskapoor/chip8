@@ -195,7 +195,7 @@ void Emulator::step(){
         case 0x2000:
             // Call instruction
 
-            assert( 1 < CHIP8_RECURSION_DEPTH);
+            assert( stackPointer < CHIP8_RECURSION_DEPTH);
 
             callStack[stackPointer] = programCounter;
             stackPointer += 1;
