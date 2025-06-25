@@ -34,8 +34,14 @@ public:
     void setRegister(uint8_t, uint8_t);
     uint8_t getRegister(uint8_t);
 
+    void setI(uint16_t);
+    uint16_t getI();
+
     void setPC(uint16_t);
     uint16_t getPC();
+    
+    void setDisplayBuffer(std::array<std::array<uint8_t, 64 / 8 >, 32> newDB);
+    std::array<std::array<uint8_t, 64 / 8 >, 32> getDisplayBuffer(); 
 
 private:
     std::array<uint8_t, CHIP8_MEMORY_SIZE> memory{};

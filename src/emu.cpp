@@ -321,10 +321,26 @@ uint8_t Emulator::getRegister(uint8_t reg){
     return registers[reg];
 }
 
+void Emulator::setI(uint16_t val){
+    iReg = val & 0xFFF;
+}
+
+uint16_t Emulator::getI(){
+    return iReg;
+}
+
 void Emulator::setPC(uint16_t newPC){
     programCounter = newPC;
 }
 
 uint16_t Emulator::getPC(){
     return programCounter;
+}
+
+void Emulator::setDisplayBuffer(std::array<std::array<uint8_t, 64 / 8 >, 32> newDB){
+    displayBuffer = newDB;
+}
+
+std::array<std::array<uint8_t, 64 / 8 >, 32> Emulator::getDisplayBuffer(){
+    return displayBuffer;
 }
