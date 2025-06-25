@@ -338,7 +338,11 @@ uint16_t Emulator::getPC(){
 }
 
 void Emulator::setDisplayBuffer(std::array<std::array<uint8_t, 64 / 8 >, 32> newDB){
-    displayBuffer = newDB;
+    for (uint8_t y = 0; y < 32; y++){
+        for (uint8_t x = 0; x < 64/8; x++ ){
+            displayBuffer[y][x] = newDB[y][x];
+        }
+    }
 }
 
 std::array<std::array<uint8_t, 64 / 8 >, 32> Emulator::getDisplayBuffer(){
