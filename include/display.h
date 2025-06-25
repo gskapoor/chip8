@@ -7,9 +7,24 @@
 
 class Display {
 public:
-    Display();
-    ~Display();
-    void update(std::array<std::array<uint8_t, 64 / 8 >, 32>);
+    virtual ~Display() = 0;
+
+    virtual void update(std::array<std::array<uint8_t, 64 / 8 >, 32>) = 0;
+};
+
+class MockDisplay : public Display {
+public:
+    MockDisplay();
+    ~MockDisplay();
+
+    void update(std::array<std::array<uint8_t, 64 / 8 >, 32>) override;
+};
+
+class SDLDisplay : public Display {
+public:
+    SDLDisplay();
+    ~SDLDisplay();
+    void update(std::array<std::array<uint8_t, 64 / 8 >, 32>) override;
 private:
     std::unique_ptr<SDL_Window, void (*)(SDL_Window*)> _window;
     std::unique_ptr<SDL_Renderer, void (*)(SDL_Renderer*)> _renderer;

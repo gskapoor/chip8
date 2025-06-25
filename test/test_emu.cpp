@@ -5,7 +5,7 @@
 
 TEST_CASE("Basic Register/ALU Operations [(6-9)XXX]"){
 
-    Emulator emulator;
+    Emulator emulator(std::unique_ptr<Display>(std::make_unique<MockDisplay>()));
 
     SUBCASE("Load Immediate") {
         std::vector<uint16_t> rom = {
@@ -166,7 +166,7 @@ TEST_CASE("Basic Register/ALU Operations [(6-9)XXX]"){
 
 TEST_CASE("Jump Instructions"){
 
-    Emulator emulator;
+    Emulator emulator(std::unique_ptr<Display>(std::make_unique<MockDisplay>()));
 
     SUBCASE("Call and Return"){
         emulator.setRegister(0, 0);

@@ -17,10 +17,10 @@ enum EmulatorState {
 
 class Emulator {
 public:
-    Emulator();
+    Emulator(std::unique_ptr<Display>);
     ~Emulator();
 
-    Display display;
+    std::unique_ptr<Display> display;
     EmulatorState state = PAUSE;
 
     // TODO: Consider making this a uint8_t array instead, it would be cleaner

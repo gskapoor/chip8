@@ -2,7 +2,14 @@
 
 // TODO: Change to a "mocked" display for testing 
 
-Display::Display()
+Display::~Display(){}
+
+MockDisplay::MockDisplay(){}
+MockDisplay::~MockDisplay(){}
+
+void MockDisplay::update(std::array<std::array<uint8_t, 64 / 8 >, 32>){}
+
+SDLDisplay::SDLDisplay()
     : _window(
         nullptr,
         SDL_DestroyWindow
@@ -61,13 +68,13 @@ Display::Display()
 
 }
 
-Display::~Display(){
+SDLDisplay::~SDLDisplay(){
 
     SDL_Quit();
 
 }
 
-void Display::update(std::array<std::array<uint8_t, 64 / 8>, 32> buffer) {
+void SDLDisplay::update(std::array<std::array<uint8_t, 64 / 8>, 32> buffer) {
 
     void* pixels = nullptr;
     int pitch = 0;

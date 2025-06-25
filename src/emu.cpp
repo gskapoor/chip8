@@ -3,7 +3,7 @@
 #include <algorithm>
 
 // Starts the emulator up
-Emulator::Emulator() {
+Emulator::Emulator(std::unique_ptr<Display> newDisplay) : display(std::move(newDisplay)) {
 
     // Make sure to set all entries in the display to 0
     for (auto &row: displayBuffer){
@@ -290,7 +290,7 @@ void Emulator::step(){
             break;
     };
 
-    display.update(displayBuffer);
+    display.get()->update(displayBuffer);
 
 }
 

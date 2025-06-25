@@ -24,7 +24,8 @@ int main(int argc, char** argv){
 
 	romFile.read(reinterpret_cast<char*>(rom.data()), size);
 
-    Emulator myEmulator;
+	Emulator myEmulator(std::unique_ptr<Display>(std::make_unique<SDLDisplay>()));
+
 	myEmulator.loadROM(rom);
 	myEmulator.run();
 
