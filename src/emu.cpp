@@ -152,6 +152,54 @@ void Emulator::aluOp(uint8_t x, uint8_t y, uint8_t op){
     }
 }
 
+void Emulator::fOp(uint8_t x, uint8_t op){
+    uint8_t temp;
+    switch (op) {
+        case 0x07:
+            registers[x] = delayTimer;
+            break;
+        case 0x0A:
+            // TODO: Implement
+            break;
+        case 0x15:
+            delayTimer = registers[x];
+            break;
+        case 0x18:
+            soundTimer = registers[x];
+            break;
+        case 0x1E:
+            iReg += registers[x];
+            break;
+        case 0x29:
+            iReg = static_cast<uint16_t>(registers[x]) * 5;
+            break;
+        case 0x33:
+            // I don't know if I'm doing this right
+            temp = registers[x];
+            memory[(iReg + 2)&0xFFF] = temp % 10;
+            temp /= 10;
+            memory[(iReg + 1)&0xFFF] = temp % 10;
+            temp /= 10;
+            memory[(iReg)&0xFFF] = temp % 10;
+            break;
+        case 0x55:
+            for (uint8_t i = 0; i <= x; i++){
+                memory[(iReg + i)&0xFFF] = registers[i];
+            }
+            iReg += static_cast<uint16_t>(x+1);
+            break;
+        case 0x65:
+            for (uint8_t i = 0; i <= x; i++){
+                registers[i] = memory[(iReg + i)&0xFFF];
+            }
+            iReg += static_cast<uint16_t>(x+1);
+            break;
+
+        default:
+            break;
+    }
+}
+
 void Emulator::step(){
     // First, get the instruction
     // This is at memory[PC:PC+2]
@@ -286,6 +334,14 @@ void Emulator::step(){
             draw(xVal, yVal, numRows);
 
             break;
+        case 0xE000:
+            // TODO: unimplemented
+            break;
+        case 0xF000:
+            xVal = (instruction >> 8) & 0xF;
+            val = static_cast<uint8_t>(instruction & 0xFF);
+            fOp(xVal, val);
+            break;
         default:
             break;
     };
@@ -308,6 +364,8 @@ void Emulator::run(){
         if (programCounter >= CHIP8_MEMORY_SIZE){
             state = HALT;
         }
+        num_iters++;
+        std::cout << num_iters << std::endl;
     }
 }
 

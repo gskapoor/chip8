@@ -62,6 +62,7 @@ private:
     void draw(uint8_t, uint8_t, uint8_t);
 
     void aluOp(uint8_t, uint8_t, uint8_t);
+    void fOp(uint8_t, uint8_t);
 
 };
 
